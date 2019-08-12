@@ -16,7 +16,7 @@ $tasks = [
         "taskName" => "Выполнить тестовое задание",
         "dateCompletion" => "25.12.2018",
         "category" => "Работа",
-        "copleted" => false
+        "completed" => false
     ],
     [
         "taskName" => "Сделать задание первого раздела",
@@ -41,6 +41,17 @@ $tasks = [
         "completed" => false
     ]
 ];
+
+function getCountProjects($arrayTask, $projectName) {
+    $count = 0;
+
+    foreach($arrayTask as $item) {
+        if ($item["category"] === $projectName) {
+            $count++;
+        }
+    }
+    return $count;
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -85,7 +96,7 @@ $tasks = [
                         <?php foreach($projects as $item): ?>
                             <li class="main-navigation__list-item">
                                 <a class="main-navigation__list-item-link" href="#"><?=$item;?></a>
-                                <span class="main-navigation__list-item-count">0</span>
+                                <span class="main-navigation__list-item-count"><?=getCountProjects($tasks, $item); ?></span>
                             </li>
                         <?php endforeach; ?>
                     </ul>
