@@ -44,9 +44,13 @@
         <?php foreach($tasks as $key => $item): ?>
         <?php if($show_complete_tasks === 1 || !$item["completed"]): ?>
         <tr class="tasks__item task
-                            <?php if($item["completed"]) {
-                                print("task--completed");
-                            } ?>">
+                <?php 
+                    if($item["completed"]) {
+                        print("task--completed");
+                    } else if (isset($item["dateCompletion"]) && isTaskImportant($item["dateCompletion"])) {
+                        print("task--important");
+                    }
+                ?>">
             <td class="task__select">
                 <label class="checkbox task__checkbox">
                     <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="<?= $key ?>"
