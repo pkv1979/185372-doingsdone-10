@@ -5,8 +5,8 @@
         <ul class="main-navigation__list">
             <?php foreach($projects as $item): ?>
             <li class="main-navigation__list-item">
-                <a class="main-navigation__list-item-link" href="#"><?=htmlspecialchars($item);?></a>
-                <span class="main-navigation__list-item-count"><?=getCountProjects($tasks, $item); ?></span>
+                <a class="main-navigation__list-item-link" href="#"><?=$item['name'];?></a>
+                <span class="main-navigation__list-item-count"><?=getCountProjects($tasks, $item['name']); ?></span>
             </li>
             <?php endforeach; ?>
         </ul>
@@ -42,27 +42,32 @@
 
     <table class="tasks">
         <?php foreach($tasks as $key => $item): ?>
-        <?php if($show_complete_tasks === 1 || !$item["completed"]): ?>
+        <?php if($show_complete_tasks === 1 || !$item["taskStatus"]): ?>
         <tr class="tasks__item task
-                <?php 
-                    if($item["completed"]) {
+                <?php
+                    if($item["taskStatus"]) {
                         print("task--completed");
-                    } else if (isset($item["dateCompletion"]) && isTaskImportant($item["dateCompletion"])) {
+                    } else if (isset($item["termDate"]) && isTaskImportant($item["termDate"])) {
                         print("task--important");
                     }
                 ?>">
             <td class="task__select">
                 <label class="checkbox task__checkbox">
                     <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="<?= $key ?>"
-                        <?= $item["completed"] ? "checked" : ""; ?>>
+                        <?= $item["taskStatus"] ? "checked" : ""; ?>>
                     <span class="checkbox__text"><?= htmlspecialchars($item["taskName"]); ?></span>
                 </label>
             </td>
 
-            <!-- <td class="task__file">
-                                    <a class="download-link" href="#">Home.psd</a>
-                                </td> -->
-            <td class="task__date"><?= isset($item["dateCompletion"]) ? $item["dateCompletion"] : ""; ?></td>
+            <td class="task__file">
+                <?php if (isset($item["fileUrl"])): ?>
+                    <a class="download-link" href="#"><?= $item["fileUrl"]; ?></a>
+                <?php endif; ?>
+            </td>
+
+            <td class="task__date">
+                <?= isset($item["termDate"]) ? date("d.m.Y", strtotime($item["termDate"])) : ""; ?>
+            </td>
         </tr>
         <?php endif; ?>
         <?php endforeach; ?>

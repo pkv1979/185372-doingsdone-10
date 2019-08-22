@@ -2,7 +2,7 @@
 date_default_timezone_set('Europe/Kiev');
 
 /**
- * Подситывает количество проектов
+ * Подсчитывает количество проектов
  * @param array $arrayTask Массив с данными для поиска
  * @param string $projectName Название проекта
  * @return integer Количество проектов в массиве
