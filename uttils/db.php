@@ -20,6 +20,8 @@ function db_fetch_data($link, $sql, $data = []) {
         $result = mysqli_fetch_all($res, MYSQLI_ASSOC);
     }
 
+    mysqli_stmt_close($stmt);
+
     return $result;
 }
 

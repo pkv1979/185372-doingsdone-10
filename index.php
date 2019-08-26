@@ -13,16 +13,22 @@ if (!$link) {
 } else {
     mysqli_set_charset($link, 'utf8');
 
-    $sql = "SELECT name FROM project WHERE userId = ?";
+    $sql = "SELECT id, name FROM project WHERE userId = ?";
     $data = [1];
     $projects = db_fetch_data($link, $sql, $data);
 
     $sql = "SELECT t.name AS taskName, p.name AS category, createdDate, taskStatus, fileUrl, termDate FROM task t JOIN project p ON t.projectId = p.id WHERE t.userId = ?";
-    $date = [1];
+    $data = [1];
+    $activeProject = 0;
+    if (isset($_GET['projectId'])) {
+        $sql .= " AND t.projectId = ?";
+        $data[] = $_GET['projectId'];
+        $activeProject = $_GET['projectId'];
+    }
     $tasks = db_fetch_data($link, $sql, $data);
 
     // HTML код главной странцы
-    $mainContent = include_template('main.php', ['projects' => $projects, 'tasks' => $tasks, 'show_complete_tasks' => $show_complete_tasks]);
+    $mainContent = include_template('main.php', ['projects' => $projects, 'tasks' => $tasks, 'show_complete_tasks' => $show_complete_tasks, 'activeProject' => $activeProject]);
 }
 
 // Итоговый HTML код
