@@ -40,5 +40,7 @@ function db_insert_data($link, $sql, $data = []) {
         $result = mysqli_insert_id($link);
     }
 
+    mysqli_stmt_close($stmt);
+
     return $result;
 }
