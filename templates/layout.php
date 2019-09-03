@@ -21,7 +21,7 @@
             </a>
 
             <div class="main-header__side">
-                <a class="main-header__side-item button button--plus open-modal" href="pages/form-task.html">Добавить задачу</a>
+                <a class="main-header__side-item button button--plus open-modal" href="add.php">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
@@ -33,7 +33,28 @@
             </div>
         </header>
 
-        <div class="content"><?=$content;?></div>
+        <div class="content">
+            <section class="content__side">
+                <h2 class="content__side-heading">Проекты</h2>
+
+                <nav class="main-navigation">
+                    <ul class="main-navigation__list">
+                        <?php foreach($projects as $item): ?>
+                            <li class="main-navigation__list-item <?= $activeProject == $item['id'] ? 'main-navigation__list-item--active' : ''; ?>" >
+                                <a class="main-navigation__list-item-link" href="index.php?projectId=<?=$item['id'];?>"><?=$item['name'];?></a>
+                                <span class="main-navigation__list-item-count"><?=getCountProjects($tasks, $item['name']); ?></span>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </nav>
+
+                <a class="button button--transparent button--plus content__side-button" href="pages/form-project.html" target="project_add">Добавить проект</a>
+            </section>
+
+            <main class="content__main">
+                <?= $content; ?>
+            </main>
+        </div>
     </div>
 </div>
 

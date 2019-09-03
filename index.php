@@ -17,8 +17,6 @@ if (!$link) {
     $data = [1];
     $projects = db_fetch_data($link, $sql, $data);
 
-    $sql = "SELECT t.name AS taskName, p.name AS category, createdDate, taskStatus, fileUrl, termDate, t.projectId FROM task t JOIN project p ON t.projectId = p.id WHERE t.userId = ?";
-    $data = [1];
     $activeProject = 0;
     $isActiveProjectExists = false;
     $activeProjectName = '';
@@ -37,6 +35,9 @@ if (!$link) {
             header('HTTP/1.1 404 Not Found');
         }
     }
+
+    $sql = "SELECT t.name AS taskName, p.name AS category, createdDate, taskStatus, fileUrl, termDate, t.projectId FROM task t JOIN project p ON t.projectId = p.id WHERE t.userId = ?";
+    $data = [1];
     $tasks = db_fetch_data($link, $sql, $data);
 
     if ($activeProject !== 0 && $isActiveProjectExists && getCountProjects($tasks, $activeProjectName) === 0) {
@@ -51,6 +52,6 @@ if (!$link) {
 }
 
 // Итоговый HTML код
-$layoutContent = include_template('layout.php', ['title' => 'Дела в порядке', 'userName' => 'Константин', 'content' => $mainContent]);
+$layoutContent = include_template('layout.php', ['title' => 'Дела в порядке', 'userName' => 'Константин', 'projects' => $projects, 'tasks' => $tasks, 'activeProject' => $activeProject, 'content' => $mainContent]);
 
 print($layoutContent);
